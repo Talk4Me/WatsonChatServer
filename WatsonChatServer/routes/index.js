@@ -1,6 +1,8 @@
 ﻿var express = require('express');
 var router = express.Router();
-var Conversation = require('watson-developer-cloud/conversation/v1'); // watson sdk
+
+var Conversation = require('watson-developer-cloud/conversation/v1'); // watson sdkvar 
+format = require('string-format');
 
 // Create the service wrapper
 var conversation = new Conversation({
@@ -8,7 +10,6 @@ var conversation = new Conversation({
     // After that, the SDK will fall back to the bluemix-provided VCAP_SERVICES environment property
     username: 'c1400ff8-18cf-4152-9d2e-b1c5b3b549f8',
     password: 'klakz3fyeEhy',
-    // url: 'https://gateway.watsonplatform.net/conversation/api',
     version_date: Conversation.VERSION_DATE_2017_04_21
 });
 
@@ -18,18 +19,13 @@ router.get('/', function (req, res) {
 });
 
 router.post('/api/message/', function (req, res) {
-    //    var workspace = process.env.WORKSPACE_ID || '<workspace-id>';
-    //    if (!workspace || workspace === '<workspace-id>') {
-    //        return res.json({
-    //            'output': {
-    //                'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' + '<a href="https://github.com/watson-developer-cloud/conversation-simple">README</a> documentation on how to set this variable. <br>' + 'Once a workspace has been defined the intents may be imported from ' + '<a href="https://github.com/watson-developer-cloud/conversation-simple/blob/master/training/car_workspace.json">here</a> in order to get a working application.'
-    //            }
-    //        });
-    //    }
+    //format.extend(String.prototype);
+    //var request = '{"input":{"text":"{0}"}}'.format(req.body[0]);
+
     var payload = {
-        workspace_id: 'a0450ddc-6160-47c1-8ac2-8ff8487e0802', //process.env.WORKSPACE_ID, //workspace,
+        workspace_id: process.env.WORKSPACE_ID, //'a0450ddc-6160-47c1-8ac2-8ff8487e0802', //process.env.WORKSPACE_ID, //workspace,
         //context: req.body.context || {},
-        input: req.body[0] || {}
+        input: req.body.input || {}
     };
 
     // Send the input to the conversation service
